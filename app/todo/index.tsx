@@ -20,7 +20,6 @@ export const TodoComponent = () => {
     const [countEffect, setCountEffect] = useState(count);
     const [mockTitleRender, setMockTitleRender] = useState<string>('init');
     const {todos, dispatch} = useContext(TodoContext)
-
     useEffect(() => {
         setCountEffect(count);
     }, [count]);
@@ -139,9 +138,8 @@ export const TodoComponent = () => {
                             <ButtonComponent key={item.id} clickEvent={() => removeTodo(item.id)} title={'Remove'}/>
                         </div>
                     </div>
-                }):<h1>không có todo nào !</h1>}
+                }) : <h1>không có todo nào !</h1>}
             </div>
-
         </div>
 
     )
