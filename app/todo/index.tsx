@@ -101,8 +101,15 @@ export const TodoComponent = () => {
         console.log('navigateToOtherPage')
         e.stopPropagation();
     }
+    const removeTodo = (id: number) => {
+        console.log('id', id)
+        dispatch({
+            type: 'DELETE_TODO',
+            payload: id
+        })
+    }
     return (
-        <div>
+        <div className={'max-w-[1200px] m-auto'}>
             <div className={'p-5 flex flex-col g-2'}>
                 <h1 className={'text-center py-3'}>testing todolist with built-in hook ! <ButtonComponent
                     clickEvent={navigateToOtherPage} title={'navigate to other page !'}>
@@ -118,8 +125,23 @@ export const TodoComponent = () => {
 
             <div className={'p-5 flex flex-col g-2'}>
                 <h1>todo list using useReducer and useContext</h1>
-                <input ref={inputRef} type={'text'} onKeyPress={addTask}/>
+                <input ref={inputRef} type={'text'} className={'p-3 mt-3 bg-gray-700 text-purple-300'}
+                       onKeyPress={addTask}/>
             </div>
+            <div className={'p-5 flex flex-col g-2'}>
+                {todos.length > 0 ? [...todos].map(item => {
+                    return <div className={'flex flex-row gap-3 my-2 justify-between'}>
+                        <h1>{item.text ?? ''}</h1>
+                        <div className={'flex gap-2'}>
+                            {/*chỗ này nếu không để key vào thì phần id bị cache do các item còn lại không bị render lại*/}
+                            {/*JSX elements directly inside a map() call always need keys!*/}
+                            {/*https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key*/}
+                            <ButtonComponent key={item.id} clickEvent={() => removeTodo(item.id)} title={'Remove'}/>
+                        </div>
+                    </div>
+                }):<h1>không có todo nào !</h1>}
+            </div>
+
         </div>
 
     )
